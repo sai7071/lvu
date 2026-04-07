@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Bunny 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rose: #ff4d7d;
+    --pink: #ff85a1;
+    --blush: #ffd6e0;
+    --gold: #f7c873;
+    --cream: #fff5f8;
+    --deep: #2a0a1a;
+    --purple: #8b2252;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--deep);
+    overflow-x: hidden;
+    cursor: none;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 20px; height: 20px;
+    background: radial-gradient(circle, #ff85a1, #ff4d7d);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 15px #ff4d7d, 0 0 30px #ff85a1;
+  }
+
+  /* Stars background */
+  .stars-bg {
+    position: fixed; inset: 0; z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Floating hearts */
+  .hearts-container {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  }
+  .float-heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: var(--size, 20px);
+    left: var(--left, 50%);
+    animation: floatUp var(--dur, 8s) ease-in infinite;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+    filter: drop-shadow(0 0 6px #ff4d7d);
+  }
+  @keyframes floatUp {
+    0% { bottom: -50px; opacity: 0; transform: translateX(0) rotate(0deg); }
+    20% { opacity: 0.9; }
+    80% { opacity: 0.6; }
+    100% { bottom: 110%; opacity: 0; transform: translateX(calc(var(--drift, 30px))) rotate(var(--rot, 20deg)); }
+  }
+
+  /* Main scene */
+  .scene {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* Crown */
+  .crown-wrap {
+    margin-bottom: 10px;
+    animation: crownFloat 3s ease-in-out infinite;
+  }
+  @keyframes crownFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
+  .crown { font-size: 60px; filter: drop-shadow(0 0 20px var(--gold)); }
+
+  /* Title */
+  .princess-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(247,200,115,0.8), 0 0 60px rgba(247,200,115,0.4);
+    letter-spacing: 3px;
+    margin-bottom: 5px;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    from { text-shadow: 0 0 20px rgba(247,200,115,0.6); }
+    to { text-shadow: 0 0 40px rgba(247,200,115,1), 0 0 80px rgba(255,77,125,0.5); }
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    color: #ffb3c8;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+  }
+
+  /* 3D Heart card */
+  .card-3d {
+    perspective: 1000px;
+    margin-bottom: 50px;
+  }
+  .card-inner {
+    width: clamp(280px, 80vw, 420px);
+    background: linear-gradient(135deg, rgba(255,77,125,0.15), rgba(139,34,82,0.3));
+    border: 1px solid rgba(255,133,161,0.4);
+    border-radius: 30px;
+    padding: 50px 40px;
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 0 0 1px rgba(255,133,161,0.2),
+      0 25px 60px rgba(255,77,125,0.25),
+      0 0 100px rgba(255,77,125,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    transform-style: preserve-3d;
+    animation: cardFloat 4s ease-in-out infinite;
+    transition: transform 0.3s ease;
+  }
+  @keyframes cardFloat {
+    0%, 100% { transform: rotateX(2deg) rotateY(-2deg) translateY(0); }
+    25% { transform: rotateX(-2deg) rotateY(3deg) translateY(-8px); }
+    50% { transform: rotateX(3deg) rotateY(-1deg) translateY(-4px); }
+    75% { transform: rotateX(-1deg) rotateY(-3deg) translateY(-10px); }
+  }
+  .card-inner:hover { animation: none; transform: rotateX(5deg) rotateY(5deg) scale(1.03); }
+
+  /* Big heart */
+  .big-heart {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .heart-icon {
+    font-size: 80px;
+    display: inline-block;
+    animation: heartbeat 1.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px #ff4d7d) drop-shadow(0 0 40px #ff4d7d);
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+  }
+
+  .missing-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 700;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 20px rgba(255,77,125,0.5);
+  }
+
+  .name-highlight {
+    color: var(--gold);
+    font-size: 1.2em;
+    display: block;
+    animation: nameShine 2s ease-in-out infinite alternate;
+  }
+  @keyframes nameShine {
+    from { color: var(--gold); text-shadow: 0 0 10px rgba(247,200,115,0.4); }
+    to { color: #fff5c0; text-shadow: 0 0 30px rgba(247,200,115,1), 0 0 60px rgba(255,200,100,0.6); }
+  }
+
+  .sub-missing {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+    color: #ffb3c8;
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 10px;
+  }
+
+  .from-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: rgba(255,133,161,0.7);
+    text-align: right;
+    margin-top: 15px;
+  }
+
+  /* Decorative divider */
+  .divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 15px 0;
+  }
+  .divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(247,200,115,0.5), transparent);
+  }
+  .divider-heart { color: var(--rose); font-size: 14px; }
+
+  /* CTA Button */
+  .cta-btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 18px 50px;
+    background: linear-gradient(135deg, #ff4d7d, #c2185b, #ff4d7d);
+    background-size: 200% 100%;
+    border: none; border-radius: 60px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: white;
+    cursor: none;
+    text-decoration: none;
+    box-shadow:
+      0 10px 40px rgba(255,77,125,0.5),
+      0 0 0 0 rgba(255,77,125,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+    animation: btnPulse 2s ease-in-out infinite, gradShift 3s ease infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    border-radius: 60px;
+  }
+  .cta-btn:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 20px 60px rgba(255,77,125,0.7), 0 0 0 8px rgba(255,77,125,0.2);
+    animation: none;
+  }
+  @keyframes btnPulse {
+    0%, 100% { box-shadow: 0 10px 40px rgba(255,77,125,0.5), 0 0 0 0 rgba(255,77,125,0.4); }
+    50% { box-shadow: 0 10px 40px rgba(255,77,125,0.5), 0 0 0 15px rgba(255,77,125,0); }
+  }
+  @keyframes gradShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Sparkles around button */
+  .sparkle-wrap { position: relative; display: inline-block; }
+  .sparkle {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: sparkleAnim 1.5s ease-in-out infinite;
+    box-shadow: 0 0 6px var(--gold);
+  }
+  @keyframes sparkleAnim {
+    0%, 100% { transform: scale(0) translate(0,0); opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  /* Petal rain */
+  .petal { position: fixed; font-size: var(--size, 20px); pointer-events: none; z-index: 2;
+    animation: petalFall var(--dur, 6s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    top: -30px; left: var(--left, 50%);
+  }
+  @keyframes petalFall {
+    0% { top: -30px; opacity: 1; transform: rotate(0deg) translateX(0); }
+    100% { top: 110vh; opacity: 0.3; transform: rotate(360deg) translateX(calc(var(--drift, 40px))); }
+  }
+
+  /* Ornamental corners */
+  .corner { position: fixed; font-size: 40px; opacity: 0.3; color: var(--gold); z-index: 5; }
+  .corner.tl { top: 15px; left: 15px; transform: rotate(0deg); }
+  .corner.tr { top: 15px; right: 15px; transform: rotate(90deg); }
+  .corner.bl { bottom: 15px; left: 15px; transform: rotate(270deg); }
+  .corner.br { bottom: 15px; right: 15px; transform: rotate(180deg); }
+
+  /* Glitter particles */
+  .glitter { position: fixed; pointer-events: none; z-index: 3; }
+  .glitter-dot {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: glitterFloat var(--dur, 5s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes glitterFloat {
+    0%, 100% { transform: translate(0,0) scale(1); opacity: 0; }
+    25% { opacity: 1; }
+    50% { transform: translate(var(--tx, 30px), var(--ty, -30px)) scale(1.5); opacity: 0.8; }
+    75% { opacity: 0.3; }
+  }
+
+  /* Page transition */
+  .page-transition {
+    position: fixed; inset: 0;
+    background: radial-gradient(circle, #ff4d7d, #2a0a1a);
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .page-transition.active { opacity: 1; pointer-events: all; }
+  .transition-heart { font-size: 100px; animation: heartbeat 0.6s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="stars-bg" id="stars"></div>
+<div class="hearts-container" id="hearts"></div>
+<div class="glitter" id="glitter"></div>
+
+<!-- Petals -->
+<div class="petal" style="--left:5%;--dur:7s;--delay:0s;--size:18px;--drift:40px">🌸</div>
+<div class="petal" style="--left:15%;--dur:5s;--delay:1s;--size:14px;--drift:-30px">🌺</div>
+<div class="petal" style="--left:25%;--dur:8s;--delay:2s;--size:20px;--drift:50px">🌸</div>
+<div class="petal" style="--left:40%;--dur:6s;--delay:0.5s;--size:16px;--drift:-40px">🌹</div>
+<div class="petal" style="--left:55%;--dur:7.5s;--delay:1.5s;--size:18px;--drift:35px">🌸</div>
+<div class="petal" style="--left:70%;--dur:5.5s;--delay:3s;--size:14px;--drift:-50px">🌺</div>
+<div class="petal" style="--left:80%;--dur:9s;--delay:0.8s;--size:22px;--drift:45px">🌸</div>
+<div class="petal" style="--left:90%;--dur:6.5s;--delay:2.5s;--size:16px;--drift:-35px">🌹</div>
+
+<!-- Ornamental Corners -->
+<div class="corner tl">✦</div>
+<div class="corner tr">✦</div>
+<div class="corner bl">✦</div>
+<div class="corner br">✦</div>
+
+<div class="scene">
+  <div class="crown-wrap"><div class="crown">👑</div></div>
+  <div class="princess-title">My Bunny</div>
+  <div class="subtitle">✦ My Heart, My Princess ✦</div>
+
+  <div class="card-3d">
+    <div class="card-inner" id="card">
+      <div class="big-heart">
+        <span class="heart-icon">💗</span>
+      </div>
+
+      <div class="missing-text">
+        I Miss You
+        <span class="name-highlight">So Much, Bittu 🌹</span>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-heart">💕</div>
+        <div class="divider-line"></div>
+      </div>
+
+      <p class="sub-missing">
+        Every second without you feels like a lifetime...<br>
+        You are my sunshine on the darkest days,<br>
+        my calm in every storm, my everything. 🌸
+      </p>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-heart">💕</div>
+        <div class="divider-line"></div>
+      </div>
+
+      <p class="sub-missing">
+        My heart calls your name in every heartbeat,<br>
+        <em>"Bunny... where are you?"</em> 💫
+      </p>
+
+      <div class="from-text">— Your Sona 💌</div>
+    </div>
+  </div>
+ 
+  <audio autoplay loop muted id="music">
+    <source src="C:\Users\DELL\Downloads\music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="sparkle-wrap">
+    <a class="cta-btn" href="proposal.html" onclick="handleClick(event)" id="audi">
+      💌 &nbsp; A Message For You, Princess &nbsp; 💌
+    </a>
+    <div class="sparkle" style="top:-8px;left:10%;animation-delay:0s"></div>
+    <div class="sparkle" style="top:-10px;right:15%;animation-delay:0.3s"></div>
+    <div class="sparkle" style="bottom:-8px;left:20%;animation-delay:0.6s"></div>
+    <div class="sparkle" style="bottom:-10px;right:10%;animation-delay:0.9s"></div>
+  </div>
+</div>
+
+
+
+<div class="page-transition" id="transition">
+  <div class="transition-heart">💖</div>
+</div>
+
+
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    starsEl.appendChild(s);
+  }
+
+  // Floating hearts
+  const heartsEl = document.getElementById('hearts');
+  const heartChars = ['💗','💕','💖','💓','💝','🌸','✨'];
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('div');
+    h.className = 'float-heart';
+    h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    h.style.cssText = `--left:${Math.random()*100}%;--dur:${6+Math.random()*8}s;--delay:${Math.random()*8}s;--size:${14+Math.random()*20}px;--drift:${(Math.random()-0.5)*80}px;--rot:${(Math.random()-0.5)*40}deg`;
+    heartsEl.appendChild(h);
+  }
+
+  // Glitter
+  const glitterEl = document.getElementById('glitter');
+  for (let i = 0; i < 40; i++) {
+    const g = document.createElement('div');
+    g.className = 'glitter-dot';
+    g.style.cssText = `left:${Math.random()*100}vw;top:${Math.random()*100}vh;--dur:${3+Math.random()*4}s;--delay:${Math.random()*5}s;--tx:${(Math.random()-0.5)*60}px;--ty:${(Math.random()-0.5)*60}px`;
+    glitterEl.appendChild(g);
+  }
+
+  // 3D card tilt
+  const card = document.getElementById('card');
+  document.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = (e.clientY - cy) / 20;
+    const ry = (cx - e.clientX) / 20;
+    card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    card.style.animation = 'none';
+  });
+  document.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.animation = 'cardFloat 4s ease-in-out infinite';
+  });
+document.addEventListener("click", () => {
+  const music = document.getElementById("music");
+  music.muted = false;
+});
+  // Page transition
+  
+  function handleClick(e) {
+
+   
+
+    e.preventDefault();
+    const t = document.getElementById('transition');
+    t.classList.add('active');
+    setTimeout(() => window.location.href = 'proposal.html', 800);
+  }
+
+  // Touch support
+  document.addEventListener('touchmove', e => {
+    const touch = e.touches[0];
+    cursor.style.left = touch.clientX + 'px';
+    cursor.style.top = touch.clientY + 'px';
+  });
+</script>
+</body>
+</html>
